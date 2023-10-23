@@ -1,28 +1,52 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/Admin.dart';
-import 'package:flutter_application_1/screens/Home.dart';
-import 'package:flutter_application_1/screens/Login.dart';
-import 'package:flutter_application_1/screens/register.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_farmacia/services/producto_services.dart';
+
+import 'screens/screens.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(const AppState());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class AppState extends StatelessWidget {
+  const AppState({Key? key});
 
   @override
   Widget build(BuildContext context) {
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => ProductoService()),
+      ],
+      child: const MyApp(),
+    );
+  }
+}
+
+class MyApp extends StatelessWidget {
+  const MyApp({Key? key});
+
+  @override
+  Widget build(BuildContext context) {
+    final myColorScheme = ColorScheme.light(
+      primary: Colors.blue, // Color primario
+      secondary: Colors.green, // Color secundario
+      background: Colors.white, // Color de fondo
+      // Personaliza otros colores según tus preferencias
+    );
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Farmacia App',
-      initialRoute: '/login', // Ruta inicial
+      title: 'Mi App',
+      initialRoute: 'home',
       routes: {
-        '/login': (context) => const LoginPage(),
-        '/register': (context) => const RegisterPage(),
-        '/home': (context) => const HomePage(),
-        '/admin': (context) => const AdminPage(),
+        'home': (context) => const HomeScreen(),
+        'producto': (context) => ProductoScreen(),
       },
+      theme: ThemeData(
+        // Asigna el esquema de colores personalizado
+        colorScheme: myColorScheme,
+        useMaterial3: true,
+      ),
     );
   }
 }
