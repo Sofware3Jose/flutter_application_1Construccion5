@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_farmacia/screens/local_screen.dart';
+import 'package:flutter_farmacia/services/mercancia_service.dart';
+import 'package:flutter_farmacia/services/uiChange_service.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_farmacia/services/producto_services.dart';
-
-import 'screens/screens.dart';
+import 'package:flutter_farmacia/screens/screens.dart';
 
 void main() {
   runApp(const AppState());
@@ -13,12 +15,11 @@ class AppState extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => ProductoService()),
-      ],
-      child: const MyApp(),
-    );
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => MercanciaService()),
+      ChangeNotifierProvider(create: (_) => UIMercanciaService()),
+      ChangeNotifierProvider(create: (_) => ProductoService()),
+    ], child: const MyApp());
   }
 }
 
@@ -28,10 +29,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final myColorScheme = ColorScheme.light(
-      primary: Colors.blue, // Color primario
-      secondary: Colors.green, // Color secundario
-      background: Colors.white, // Color de fondo
-      // Personaliza otros colores según tus preferencias
+      primary: Colors.blue,
+      secondary: Colors.green,
+      background: Colors.white,
     );
 
     return MaterialApp(
@@ -41,9 +41,9 @@ class MyApp extends StatelessWidget {
       routes: {
         'home': (context) => const HomeScreen(),
         'producto': (context) => ProductoScreen(),
+        'local': (context) => const LocalScreen(), // Agrega la ruta "local"
       },
       theme: ThemeData(
-        // Asigna el esquema de colores personalizado
         colorScheme: myColorScheme,
         useMaterial3: true,
       ),

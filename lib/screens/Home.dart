@@ -7,7 +7,6 @@ import 'package:flutter_farmacia/services/producto_services.dart';
 import 'package:flutter_farmacia/widgets/widgets.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-
 class HomeScreen extends StatelessWidget {
   const HomeScreen({Key? key});
 
@@ -33,7 +32,7 @@ class HomeScreen extends StatelessWidget {
           ),
           itemCount: listProductos.length,
           itemBuilder: (BuildContext context, int index) {
-            return ProductCard(producto: listProductos[index], onEdit: () {  },);
+            return ProductCard(producto: listProductos[index], onEdit: () {});
           },
         ),
       ),
@@ -42,11 +41,25 @@ class HomeScreen extends StatelessWidget {
           Navigator.pushNamed(context, 'producto');
         },
         child: const Icon(
-          Icons.add,
+          Icons.cloud_upload_outlined,
           size: 40,
           color: Colors.white,
         ),
       ),
+      persistentFooterButtons: [
+        Container(
+          color: Colors.lightBlue, // Fondo azul claro
+          height: 60, // Altura del contenedor
+          child: Center(
+            child: IconButton(
+              icon: Icon(Icons.save, size: 40, color: Colors.white),
+              onPressed: () {
+                Navigator.pushNamed(context, 'local');
+              },
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
@@ -63,13 +76,13 @@ class ProductCard extends StatelessWidget {
       elevation: 5,
       margin: EdgeInsets.all(10),
       child: ListView(
-        shrinkWrap: true, 
+        shrinkWrap: true,
         children: <Widget>[
           CachedNetworkImage(
             imageUrl: producto.imgproducto,
-            width: 150,  
-            height: 150, 
-            fit: BoxFit.cover, 
+            width: 150,
+            height: 150,
+            fit: BoxFit.cover,
           ),
           SizedBox(height: 10),
           Text(
@@ -88,7 +101,6 @@ class ProductCard extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.delete, color: Colors.red),
                 onPressed: () {
-                  // Lógica para eliminar el producto
                   final productoService =
                       Provider.of<ProductoService>(context, listen: false);
                   productoService.delete(producto);
@@ -97,7 +109,6 @@ class ProductCard extends StatelessWidget {
               IconButton(
                 icon: Icon(Icons.edit, color: Colors.blue),
                 onPressed: () {
-                  // Navegar a la pantalla de edición
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => ProductoScreen(dataReceived: producto),

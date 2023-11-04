@@ -5,7 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_farmacia/services/producto_services.dart';
 
 class ListTitleProducto extends StatelessWidget {
-  const ListTitleProducto({super.key, required this.producto});
+  const ListTitleProducto({super.key, required this.producto, required ProductoModel product});
 
   final ProductoModel producto;
   @override
