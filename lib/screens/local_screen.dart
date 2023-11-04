@@ -1,27 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_farmacia/screens/mercancia_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_farmacia/models/mercancia_model.dart';
 import 'package:flutter_farmacia/services/mercancia_service.dart';
-import 'package:flutter_farmacia/screens/mercancia_screen.dart';
 
-class LocalScreen extends StatefulWidget {
+class LocalScreen extends StatelessWidget {
   const LocalScreen({Key? key});
-
-  @override
-  _LocalScreenState createState() => _LocalScreenState();
-}
-
-class _LocalScreenState extends State<LocalScreen> {
-  @override
-  void initState() {
-    super.initState();
-    final mercanciaService = Provider.of<MercanciaService>(context, listen: false);
-    mercanciaService.getAllMercancias();
-  }
 
   @override
   Widget build(BuildContext context) {
     final mercanciaService = Provider.of<MercanciaService>(context);
+    mercanciaService.getAllMercancias();
     List<MercanciaModel> mercancias = mercanciaService.mercancias;
 
     return Scaffold(
@@ -33,7 +22,8 @@ class _LocalScreenState extends State<LocalScreen> {
         itemBuilder: (BuildContext context, int index) {
           return ListTile(
             title: Text(mercancias[index].name),
-            subtitle: Text('Precio: ${mercancias[index].precio.toStringAsFixed(2)}'),
+            subtitle:
+                Text('Precio: ${mercancias[index].precio.toStringAsFixed(2)}'),
             trailing: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -42,7 +32,8 @@ class _LocalScreenState extends State<LocalScreen> {
                   onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
-                        builder: (context) => MercanciaScreen(dataReceived: mercancias[index]),
+                        builder: (context) =>
+                            MercanciaScreen(dataReceived: mercancias[index]),
                       ),
                     );
                   },

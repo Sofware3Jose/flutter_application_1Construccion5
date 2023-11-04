@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/mercancia_model.dart'; 
-import '../services/mercancia_service.dart'; 
+import '../models/mercancia_model.dart';
+import '../services/mercancia_service.dart';
 
-class  extends StatefulWidget { // Cambia el nombre de la clase a "MercanciaScreen"
-  MercanciaScreen({Key? key, MercanciaModel? dataReceived}) { // Corrige la declaración del constructor
+class MercanciaScreen extends StatefulWidget {
+  // Cambia el nombre de la clase a "MercanciaScreen"
+  MercanciaScreen({Key? key, MercanciaModel? dataReceived}) {
+    // Corrige la declaración del constructor
     reg = dataReceived;
   }
 
   MercanciaModel? reg;
 
   @override
-  State<MercanciaScreen> createState() => _MercanciaScreenState(); // Cambia el nombre de la clase a "_MercanciaScreenState"
+  State<MercanciaScreen> createState() =>
+      _MercanciaScreenState(); // Cambia el nombre de la clase a "_MercanciaScreenState"
 }
 
-class _MercanciaScreenState extends State<MercanciaScreen> { // Cambia el nombre de la clase a "_MercanciaScreenState"
+class _MercanciaScreenState extends State<MercanciaScreen> {
+  // Cambia el nombre de la clase a "_MercanciaScreenState"
   TextEditingController _name = TextEditingController();
   TextEditingController _precio = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    final mercanciaService = Provider.of<MercanciaService>(context); // Utiliza el servicio adecuado
+    final mercanciaService =
+        Provider.of<MercanciaService>(context); // Utiliza el servicio adecuado
     bool isNew = true;
     if (widget.reg != null) {
       isNew = false;
@@ -30,8 +35,10 @@ class _MercanciaScreenState extends State<MercanciaScreen> { // Cambia el nombre
     return Scaffold(
       appBar: AppBar(
         title: isNew
-            ? const Text('Crear Mercancía') // Cambia el texto para crear Mercancía
-            : Text('Editar Mercancía ${widget.reg!.id}'), // Cambia el texto para editar Mercancía
+            ? const Text(
+                'Crear Mercancía') // Cambia el texto para crear Mercancía
+            : Text(
+                'Editar Mercancía ${widget.reg!.id}'), // Cambia el texto para editar Mercancía
       ),
       body: Center(
           child: Padding(
@@ -54,9 +61,11 @@ class _MercanciaScreenState extends State<MercanciaScreen> { // Cambia el nombre
                   onPressed: () async {
                     asignarMercancia(); // Cambia el nombre de la función
                     if (isNew) {
-                      await mercanciaService.create(widget.reg!); // Utiliza el servicio adecuado
+                      await mercanciaService
+                          .create(widget.reg!); // Utiliza el servicio adecuado
                     } else {
-                      await mercanciaService.update(widget.reg!); // Utiliza el servicio adecuado
+                      await mercanciaService
+                          .update(widget.reg!); // Utiliza el servicio adecuado
                     }
                     Navigator.pop(context);
                   },
@@ -79,9 +88,11 @@ class _MercanciaScreenState extends State<MercanciaScreen> { // Cambia el nombre
     );
   }
 
-  asignarMercancia() { // Cambia el nombre de la función
-    MercanciaModel mercancia =
-        MercanciaModel(name: _name.text, precio: double.parse(_precio.text)); // Utiliza el modelo adecuado
+  asignarMercancia() {
+    // Cambia el nombre de la función
+    MercanciaModel mercancia = MercanciaModel(
+        name: _name.text,
+        precio: double.parse(_precio.text)); // Utiliza el modelo adecuado
 
     widget.reg ??= mercancia; // Utiliza el modelo adecuado
     widget.reg!.name = _name.text;
